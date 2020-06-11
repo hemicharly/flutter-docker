@@ -49,7 +49,8 @@
      * **example**:
       
       make flutter cmd=doctor
-         
+
+     * **note**: you need to check your smartphone's USB configuration, leaving in development mode         
                         
 * Start project execute: 
 
