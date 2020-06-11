@@ -1,12 +1,14 @@
-# Build application
+# Build docker
 build:
 	docker-compose build
-
 
 # Build cli docker-compose.cli.yml
 cli-build:
 	docker-compose -f docker-compose.cli.yml build --pull
 
+# Execute command flutter in docker
+flutter:
+	docker-compose -f docker-compose.cli.yml run --rm flutter $(cmd)
 
 # Create new app flutter
 create-app:
