@@ -17,15 +17,16 @@
 
       make cli-build
       
-* Access file `docker-compose.yml` in command set **your name app**:
 
-        command: bash -c "cd your name app && flutter run"
+* Access file `docker-compose.yml` in command set **your name app**:: 
         
+      command: bash -c "cd your name app && flutter run"
+      
      * **example**:
-        
-        command: bash -c "cd hello_world && flutter run"
-     
-     * **note**: the command is required your user root password
+      
+      command: bash -c "cd hello_world && flutter run"
+
+    * **note**: the command is required your user root password
         
 * Create app execute: 
         
