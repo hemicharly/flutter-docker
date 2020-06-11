@@ -11,7 +11,9 @@ services:
     ports:
       - 42087:42087
     volumes:
-      - /dev/bus/usb:/dev/bus/usb
+      - type: bind
+        source: /dev/bus/usb
+        target: /dev/bus/usb
       - /var/run/docker.sock:/var/run/docker.sock
       - ./app/hello_world:/application
     command: bash -c "flutter run"
