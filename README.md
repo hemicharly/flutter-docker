@@ -9,25 +9,17 @@
 
 #### 2.  Steps to run this project
 
+
 * Build docker execute: 
 
       make build
+ 
       
 * Build docker cli execute: 
 
       make cli-build
       
-
-* Access file `docker-compose.yml` in command set **your name app**:: 
-        
-      command: bash -c "cd your name app && flutter run"
-      
-     * **example**:
-      
-      command: bash -c "cd hello_world && flutter run"
-
-    * **note**: the command is required your user root password
-        
+     
 * Create app execute: 
         
       make create-app NAME_APP=your name app
@@ -35,7 +27,30 @@
      * **example**:
       
       make create-app NAME_APP=hello_world
+      
+    * **note**: the command is required your user root password
+  
+    
+ * Access file `docker-compose.yml` in volumes set at line: 
+         
+       volumes:
+         - ./app/your path app:/application
        
+      * **example**:
+       
+       volumes:
+         - ./app/hello_world:/application
+
+  
+* Execute commands flutter in docker: 
+        
+      make flutter cmd=your command flutter
+      
+     * **example**:
+      
+      make flutter cmd=doctor
+         
+                        
 * Start project execute: 
 
       make start
