@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  app_flutter:
+    container_name: app_flutter
+    image: app_flutter
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - 42087:42087
+    volumes:
+      - ./app:/application
+    command: bash -c "cd hello_world && flutter run"

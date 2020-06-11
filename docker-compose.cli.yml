@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  flutter:
+    container_name: flutter
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./app:/application
+    entrypoint: flutter
