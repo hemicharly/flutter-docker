@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
+    privileged: true
     volumes:
-      - ./app:/application
+      - /dev/bus/usb:/dev/bus/usb
+      - /var/run/docker.sock:/var/run/docker.sock
     entrypoint: flutter
