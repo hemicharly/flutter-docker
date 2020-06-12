@@ -30,9 +30,8 @@ ENV PATH="${ANDROID_TOOLS_ROOT}/tools:${PATH}"
 ENV PATH="${ANDROID_TOOLS_ROOT}/tools/bin:${PATH}"
 
 # Install Flutter.
-ENV FLUTTER_VERSION="1.17.3"
 ENV FLUTTER_ROOT="/opt/flutter"
-RUN git clone --branch $FLUTTER_VERSION --depth=1 https://github.com/flutter/flutter "${FLUTTER_ROOT}"
+RUN git clone https://github.com/flutter/flutter.git -b stable --depth 1 "${FLUTTER_ROOT}"
 ENV PATH="${FLUTTER_ROOT}/bin:${PATH}"
 ENV ANDROID_HOME="${ANDROID_TOOLS_ROOT}"
 
@@ -44,6 +43,11 @@ RUN flutter precache
 
 # Accept licenses.
 RUN yes "y" | flutter doctor --android-licenses
+
+RUN flutter upgrade
+
+# Set channel stable
+RUN flutter channel stable
 
 # Perform a doctor run.
 RUN flutter doctor -v
