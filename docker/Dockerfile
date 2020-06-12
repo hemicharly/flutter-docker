@@ -1,30 +1,57 @@
-FROM ubuntu:18.04
+FROM debian:stretch
 
-# Prerequisites
-RUN apt update && apt install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget
+WORKDIR /
 
-ENV PATH_INSTALL /opt/flutter_install
+RUN apt update -y && \
+    apt install -y \
+    git \
+    wget \
+    curl \
+    unzip \
+    lcov \
+    lib32stdc++6 \
+    libglu1-mesa \
+    default-jdk-headless
 
-WORKDIR $PATH_INSTALL
+# Install the Android SDK Dependency.
+ENV ANDROID_VERSION="29"
+ENV ANDROID_SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
+ENV ANDROID_TOOLS_ROOT="/opt/android_sdk"
+RUN mkdir -p "${ANDROID_TOOLS_ROOT}"
+ENV ANDROID_SDK_ARCHIVE="${ANDROID_TOOLS_ROOT}/archive"
+RUN wget -q "${ANDROID_SDK_URL}" -O "${ANDROID_SDK_ARCHIVE}"
+RUN unzip -q -d "${ANDROID_TOOLS_ROOT}" "${ANDROID_SDK_ARCHIVE}"
+RUN yes "y" | "${ANDROID_TOOLS_ROOT}/tools/bin/sdkmanager" "build-tools;$ANDROID_VERSION.0.0"
+RUN yes "y" | "${ANDROID_TOOLS_ROOT}/tools/bin/sdkmanager" "platforms;android-$ANDROID_VERSION"
+RUN yes "y" | "${ANDROID_TOOLS_ROOT}/tools/bin/sdkmanager" "platform-tools"
+RUN rm "${ANDROID_SDK_ARCHIVE}"
+ENV PATH="${ANDROID_TOOLS_ROOT}/tools:${PATH}"
+ENV PATH="${ANDROID_TOOLS_ROOT}/tools/bin:${PATH}"
 
-# Prepare Android directories and system variables
-RUN mkdir -p Android/Sdk
-ENV ANDROID_SDK_ROOT $PATH_INSTALL/Android/Sdk
-RUN mkdir -p .android && touch .android/repositories.cfg
+# Install Flutter.
+ENV FLUTTER_VERSION="1.17.3"
+ENV FLUTTER_ROOT="/opt/flutter"
+RUN git clone --branch $FLUTTER_VERSION --depth=1 https://github.com/flutter/flutter "${FLUTTER_ROOT}"
+ENV PATH="${FLUTTER_ROOT}/bin:${PATH}"
+ENV ANDROID_HOME="${ANDROID_TOOLS_ROOT}"
 
-# Setup Android SDK
-RUN wget -O sdk-tools.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-RUN unzip sdk-tools.zip && rm sdk-tools.zip
-RUN mv tools Android/Sdk/tools
-RUN cd Android/Sdk/tools/bin && yes | ./sdkmanager --licenses
-RUN cd Android/Sdk/tools/bin && ./sdkmanager "build-tools;29.0.2" "patcher;v4" "platform-tools" "platforms;android-29" "sources;android-29"
+# Disable analytics and crash reporting on the builder.
+RUN flutter config  --no-analytics
 
-# Download Flutter SDK
-RUN git clone https://github.com/flutter/flutter.git -b stable --depth 1
-ENV PATH "$PATH:$PATH_INSTALL/flutter/bin"
+# Perform an artifact precache so that no extra assets need to be downloaded on demand.
+RUN flutter precache
 
-# Run basic check to download Dark SDK
-RUN flutter doctor
+# Accept licenses.
+RUN yes "y" | flutter doctor --android-licenses
+
+# Perform a doctor run.
+RUN flutter doctor -v
+
+ENV PATH $PATH:/flutter/bin/cache/dart-sdk/bin:/flutter/bin
 
 ENV PATH_APP /application
 WORKDIR $PATH_APP
+
+#CMD ['ansible']
+
+

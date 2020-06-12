@@ -6,14 +6,16 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
+    user: root
     privileged: true
     volumes:
       - type: bind
+        source: ./app/hello_world
+        target: /application
+      - type: bind
         source: /dev/bus/usb
         target: /dev/bus/usb
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./app/hello_world:/application
+      - type: bind
+        source: /dev/kvm
+        target: /dev/kvm
     entrypoint: flutter
-
-volumes:
-  usb:
