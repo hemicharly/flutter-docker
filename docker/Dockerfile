@@ -52,6 +52,4 @@ ENV PATH $PATH:/flutter/bin/cache/dart-sdk/bin:/flutter/bin
 ENV PATH_APP /application
 WORKDIR $PATH_APP
 
-#CMD ['ansible']
-
 
