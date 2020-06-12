@@ -10,6 +10,10 @@ cli-build:
 flutter:
 	docker-compose -f docker-compose.cli.yml run --rm flutter $(cmd)
 
+# Execute command generator apk
+apk:
+	docker-compose -f docker-compose.cli.yml run --rm flutter build apk --release
+
 # Create new app flutter
 create-app:
 	docker-compose -f docker-compose.cli.yml run --rm flutter create $(NAME_APP) && \
