@@ -4,8 +4,8 @@ cli-build:
 
 # Create new app flutter
 create-app:
-	docker-compose -f docker-compose.cli.yml run --rm flutter create $(NAME_APP) && \
-	sudo chmod -R 777 app/$(NAME_APP)/
+	docker-compose -f docker-compose.cli.yml run --rm flutter create $(name) && \
+	sudo chmod -R 777 app/$(name)/
 
 # Execute command flutter in docker
 flutter:
@@ -17,8 +17,8 @@ run:
 
 # Execute command generator apk
 apk:
-	docker-compose -f docker-compose.cli.yml run --rm flutter clean && flutter build apk
+	docker-compose -f docker-compose.cli.yml run --rm flutter build apk --release
 
 # Execute command generator ios
 ios:
-	docker-compose -f docker-compose.cli.yml run --rm flutter clean && flutter build ios
+	docker-compose -f docker-compose.cli.yml run --rm flutter build ios --release

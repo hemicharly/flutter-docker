@@ -14,27 +14,28 @@
 
       make cli-build
       
- * Access file `docker-compose.cli.yml` in volumes set at line: 
+              
+* Create app execute: 
+        
+      make create-app name=your name app
+      
+     * **example**:
+      
+      make create-app name=hello_world
+      
+    * **note**: the command is required your user root password
+ 
+  
+ * Access file `docker-compose.cli.yml` in volumes change at line: 
          
        volumes:
-         - ./app/your path app:/application
+         - ./app:/application
        
       * **example**:
        
        volumes:
          - ./app/hello_world:/application
-              
-* Create app execute: 
-        
-      make create-app NAME_APP=your name app
-      
-     * **example**:
-      
-      make create-app NAME_APP=hello_world
-      
-    * **note**: the command is required your user root password
-  
-    
+             
 * Execute commands flutter in docker: 
         
       make flutter cmd=your command flutter
@@ -57,5 +58,5 @@
 
       
 * Generator ios project execute: 
-
+      
       make ios
