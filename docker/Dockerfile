@@ -11,6 +11,7 @@ RUN apt update -y && \
     lcov \
     lib32stdc++6 \
     libglu1-mesa \
+    usbutils \
     default-jdk-headless
 
 # Install the Android SDK Dependency.
@@ -49,7 +50,6 @@ RUN flutter doctor -v
 
 ENV PATH $PATH:/flutter/bin/cache/dart-sdk/bin:/flutter/bin
 
-ENV PATH_APP /application
-WORKDIR $PATH_APP
+WORKDIR /application
 
 
