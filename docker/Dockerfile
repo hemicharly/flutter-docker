@@ -1,59 +1,90 @@
-FROM debian:stretch
+FROM lastjedi/jdk8:0.2
 
-WORKDIR /
+# Update packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends unzip wget bash git curl lib32stdc++6 xz-utils && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt update -y && \
-    apt install -y \
-    git \
-    wget \
-    curl \
-    unzip \
-    lcov \
-    lib32stdc++6 \
-    libglu1-mesa \
-    usbutils \
-    default-jdk-headless
+# Install vs-code
+ENV VSCODE=https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable
 
-# Install the Android SDK Dependency.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libnotify4 gnupg libxkbfile1 libgconf-2-4 libsecret-1-0 libgtk2.0-0 libx11-xcb-dev libxss-dev libasound2 libnss3 libxtst6 pulseaudio libgl1-mesa-glx libgtkd-3-0 qemu-kvm cpu-checker android-tools-adb && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN echo 'Installing VsCode' && \
+    curl -o vscode.deb -# -J -L "$VSCODE" && \
+    dpkg -i vscode.deb && rm -f vscode.deb
+
+# User and Groups
+RUN groupadd flutter
+RUN usermod -a -G flutter root
+
+ENV DEVELOPER developer
+ENV HOME_DIR /home/${DEVELOPER}
+RUN useradd -ms /bin/bash ${DEVELOPER}
+RUN usermod -a -G flutter ${DEVELOPER}
+RUN usermod -a -G plugdev ${DEVELOPER}
+RUN usermod -a -G kvm ${DEVELOPER}
+
+# android sdk - properties
 ENV ANDROID_VERSION="29"
-ENV ANDROID_SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
-ENV ANDROID_TOOLS_ROOT="/opt/android_sdk"
-RUN mkdir -p "${ANDROID_TOOLS_ROOT}"
-ENV ANDROID_SDK_ARCHIVE="${ANDROID_TOOLS_ROOT}/archive"
-RUN wget -q "${ANDROID_SDK_URL}" -O "${ANDROID_SDK_ARCHIVE}"
-RUN unzip -q -d "${ANDROID_TOOLS_ROOT}" "${ANDROID_SDK_ARCHIVE}"
-RUN yes "y" | "${ANDROID_TOOLS_ROOT}/tools/bin/sdkmanager" "build-tools;$ANDROID_VERSION.0.0"
-RUN yes "y" | "${ANDROID_TOOLS_ROOT}/tools/bin/sdkmanager" "platforms;android-$ANDROID_VERSION"
-RUN yes "y" | "${ANDROID_TOOLS_ROOT}/tools/bin/sdkmanager" "platform-tools"
-RUN rm "${ANDROID_SDK_ARCHIVE}"
-ENV PATH="${ANDROID_TOOLS_ROOT}/tools:${PATH}"
-ENV PATH="${ANDROID_TOOLS_ROOT}/tools/bin:${PATH}"
+ENV ANDROID_SDK sdk-tools-linux-4333796.zip
+ENV ANDROID_SDK_URL https://dl.google.com/android/repository/${ANDROID_SDK}
+ENV ANDROID_HOME /opt/android-sdk
 
-# Install Flutter.
-ENV FLUTTER_ROOT="/opt/flutter"
-RUN git clone https://github.com/flutter/flutter.git -b stable --depth 1 "${FLUTTER_ROOT}"
-ENV PATH="${FLUTTER_ROOT}/bin:${PATH}"
-ENV ANDROID_HOME="${ANDROID_TOOLS_ROOT}"
+# create folder and add flutter-group rights
+RUN mkdir ${ANDROID_HOME}
+RUN chown -R :flutter /opt
+RUN chmod -R g+xrw /opt
+RUN chown -R :flutter ${ANDROID_HOME}
+RUN chmod -R g+xrw ${ANDROID_HOME}
+USER ${DEVELOPER}
 
-# Disable analytics and crash reporting on the builder.
+# Install android sdk
+RUN cd /opt && wget -q ${ANDROID_SDK_URL} --show-progress && \
+    unzip ${ANDROID_SDK} -d $ANDROID_HOME && rm ${ANDROID_SDK}
+
+# Add android tools and platform tools to PATH
+ENV PATH $PATH:$ANDROID_HOME/tools
+ENV PATH $PATH:$ANDROID_HOME/platform-tools
+ENV PATH $PATH:$ANDROID_HOME/tools/bin
+
+#Install Android Tools
+RUN yes | sdkmanager --update --verbose
+RUN yes | sdkmanager "platform-tools"
+RUN yes | sdkmanager "build-tools;$ANDROID_VERSION.0.3" --verbose
+RUN yes | sdkmanager "platforms;android-$ANDROID_VERSION" --verbose
+RUN yes | sdkmanager "extras;android;m2repository" --verbose
+RUN yes | sdkmanager "extras;google;m2repository" --verbose
+RUN yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2" --verbose
+RUN yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2" --verbose
+RUN yes | sdkmanager "system-images;android-$ANDROID_VERSION;google_apis_playstore;x86" --verbose
+RUN yes | sdkmanager --licenses
+
+# Create fake keymap file
+RUN mkdir $ANDROID_HOME/tools/keymaps && \
+    touch $ANDROID_HOME/tools/keymaps/de-de
+
+# Install flutters stable
+ENV FLUTTER_HOME /opt/flutter
+RUN cd $FLUTTER_HOME && git clone https://github.com/flutter/flutter.git -b stable --depth 1  --show-progress
+ENV PATH=$FLUTTER_HOME/bin:$PATH
 RUN flutter config  --no-analytics
-
-# Perform an artifact precache so that no extra assets need to be downloaded on demand.
 RUN flutter precache
-
-# Accept licenses.
-RUN yes "y" | flutter doctor --android-licenses
-
 RUN flutter upgrade
-
-# Set channel stable
 RUN flutter channel stable
 
-# Perform a doctor run.
+# user specifics
+WORKDIR ${HOME_DIR}
+
+ADD docker/.bashrc .bashrc
+RUN cat /usr/lib/git-core/git-sh-prompt > .bash_git
+
+# Code as superuser is not recommended
+RUN code --install-extension Dart-Code.flutter && \
+    code --install-extension miguelsolorio.min-theme  && \
+    code --install-extension huizhou.githd  && \
+    code --install-extension waderyan.gitblame
+
 RUN flutter doctor -v
-
-ENV PATH $PATH:/flutter/bin/cache/dart-sdk/bin:/flutter/bin
-
-WORKDIR /application
-
-
