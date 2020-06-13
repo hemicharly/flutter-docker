@@ -19,7 +19,7 @@
     * in terminal host execute: `make permission`
         * **note**: the container terminal will open, in mode root
         
-    * in container terminal: `chown developer /dev/kvm`
+    * in container terminal: `chown developer:developer /dev/kvm`
     * in container terminal: `exit`
       
                                       
@@ -46,6 +46,7 @@
 * Start app with emulator:
  
      * in container terminal execute: `cd yournameapp && flutter run`
+        * **note**: using hot reload, press **r** or **R** on the terminal
 
      
 * Open VsCode, *optional*:
