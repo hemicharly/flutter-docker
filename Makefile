@@ -4,8 +4,7 @@ build:
 
 # Permission user development in /dev/kvm
 permission:
-	docker-compose run --rm  --user root development_flutter bash && \
-    chown $(user) /dev/kvm
+	docker-compose run --rm  --user root development_flutter bash
 
 # Run image flutter development
 run:
