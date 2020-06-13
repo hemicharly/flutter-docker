@@ -18,6 +18,7 @@ services:
       - /usr/share/icons:/usr/share/icons:ro
       - /usr/share/fonts:/usr/share/fonts:ro
       - /dev/kvm:/dev/kvm
+      - /dev/bus/usb:/dev/bus/usb
 
 volumes:
   home_developer: ~

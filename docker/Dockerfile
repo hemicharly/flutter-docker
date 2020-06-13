@@ -19,7 +19,7 @@ RUN apt update -y && \
     libsecret-1-0 gnupg2 libglu1 xz-utils gcc-multilib \
     libgtk2.0-0 libx11-xcb-dev \
     libxss-dev libasound2 libnss3 libxtst6 \
-    pulseaudio libgl1-mesa-glx libgtkd-3-0 qemu-kvm \
+    pulseaudio libgl1-mesa-glx libgtkd-3-0 qemu-kvm usbutils \
     cpu-checker android-tools-adb && \
     rm -rf /var/lib/apt/lists/*
 

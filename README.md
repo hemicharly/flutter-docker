@@ -16,7 +16,7 @@
         * **note**: avoid building repeatedly, especially if you have already created the project and executed
       
 
-* The `/dev/kvm` permission perform the steps: 
+* The `/dev/kvm` permission perform the steps **optional**:
     
     * at the host terminal: `make permission`
         * **note**: the container terminal will open, in mode root
@@ -31,7 +31,7 @@
         * **note**: the container terminal will open, in development mode. To close the terminal, run `exit`
       
           
-* Create emulators execute the steps:
+* Create emulators execute the steps **optional**:
   
      * at the container terminal, to create emulator: `flutter emulators --create`
      * at the container terminal, to list emulators: `flutter emulators`
@@ -40,23 +40,32 @@
      * at the container terminal, to check with doctor: `flutter doctor`
 
 
-* Create your app flutter:
+* Using your smartphone with `cable usb` **optional**:
+  
+     * configure your smartphone, development permission:
+     * connect your smartphone to the USB cable on your computer:
+     * at the container terminal, to check with doctor: `flutter doctor`
+
+
+* Create your app flutter **optional**:
 
     * at the container terminal, access project folder: `cd project`
     * at the container terminal, run: `flutter create yournameapp`
+
+
+* Using with existing project **optional**:
+
+    * copy your project to `workdir` folder 
+
  
- 
-* Launch application with an emulator:
+* Launch application with an `emulator` or `usb`:
  
     * at the container terminal, access project folder: `cd project/yournameapp`
      * at the container terminal, run: `flutter run`
         * **note**: using hot reload, press **r** or **R** on the terminal
         
-* Using with existing project:
-
-    * copy your project to `workdir` folder
-
-* Open VsCode, *optional*:
+        
+* Open VsCode, **optional**:
  
      * at the container terminal: `code`
      * open your application folder in `VsCode`
