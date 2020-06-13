@@ -61,7 +61,7 @@
         * to:
         
                 volumes:
-                  - ./workdir/yourproject:/home/developer/yourproject              
+                  - ./workdir/yourproject:/home/developer              
 
 
 * Open VsCode, *optional*:
