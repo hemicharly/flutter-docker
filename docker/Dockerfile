@@ -68,7 +68,7 @@ RUN mkdir $ANDROID_HOME/tools/keymaps && \
 
 # Install flutters stable
 ENV FLUTTER_HOME /opt/flutter
-RUN cd $FLUTTER_HOME && git clone https://github.com/flutter/flutter.git -b stable --depth 1  --show-progress
+RUN cd /opt && git clone https://github.com/flutter/flutter.git -b stable --depth 1
 ENV PATH=$FLUTTER_HOME/bin:$PATH
 RUN flutter config  --no-analytics
 RUN flutter precache

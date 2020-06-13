@@ -1,19 +1,19 @@
 version: '3.7'
 
 services:
-  flutter:
-    container_name: flutter
+  development_flutter:
+    container_name: development_flutter
+    hostname: flutter
     build:
-      network: host
       context: .
       dockerfile: docker/Dockerfile
     privileged: true
+    environment:
+      DISPLAY: $DISPLAY
     volumes:
-      - /dev/bus/usb:/dev/bus/usb
-      - /dev/kvm:/dev/kvm
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./app:/home/developer
       - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./app/hello_world:/application
-    #entrypoint: flutter
-
+      - /usr/share/icons:/usr/share/icons:ro
+      - /usr/share/fonts:/usr/share/fonts:ro
+      - /dev/kvm:/dev/kvm
