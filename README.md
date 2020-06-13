@@ -1,4 +1,4 @@
-## Flutter with docker
+## Flutter with docker, emulator android and VsCode
 
 #### 1. Requirements Installation
 
