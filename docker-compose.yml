@@ -11,8 +11,8 @@ services:
     environment:
       DISPLAY: $DISPLAY
     volumes:
+      - ./workdir:/home/developer
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./app:/home/developer
       - /etc/localtime:/etc/localtime:ro
       - /usr/share/icons:/usr/share/icons:ro
       - /usr/share/fonts:/usr/share/fonts:ro
