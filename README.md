@@ -43,7 +43,7 @@
 * Using your smartphone with `cable usb` **optional**:
   
      * configure your smartphone, development permission:
-     * connect your smartphone to the USB cable on your computer
+     * connect your smartphone to the USB cable on your computer:
      * at the container terminal, to check devices usb: `lsusb`
      * at the container terminal, to check with doctor: `flutter doctor`
 
