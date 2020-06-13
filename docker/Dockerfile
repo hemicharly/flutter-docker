@@ -1,17 +1,29 @@
-FROM lastjedi/jdk8:0.2
+FROM ubuntu:18.04
 
-# Update packages
+# Install java jdk 8
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends unzip wget bash git curl lib32stdc++6 xz-utils && \
+	apt-get install -y openjdk-8-jdk && \
+	apt-get install -y ant && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/* && \
+	rm -rf /var/cache/oracle-jdk8-installer
+
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+RUN export JAVA_HOME
+
+# Install dependencies
+RUN apt update -y && \
+    apt install -y --no-install-recommends \
+    bash git wget curl unzip lib32stdc++6 xz-utils \
+    libnotify4 gnupg libxkbfile1 libgconf-2-4 \
+    libsecret-1-0 libgtk2.0-0 libx11-xcb-dev \
+    libxss-dev libasound2 libnss3 libxtst6 \
+    pulseaudio libgl1-mesa-glx libgtkd-3-0 qemu-kvm \
+    cpu-checker android-tools-adb && \
     rm -rf /var/lib/apt/lists/*
 
 # Install vs-code
 ENV VSCODE=https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends libnotify4 gnupg libxkbfile1 libgconf-2-4 libsecret-1-0 libgtk2.0-0 libx11-xcb-dev libxss-dev libasound2 libnss3 libxtst6 pulseaudio libgl1-mesa-glx libgtkd-3-0 qemu-kvm cpu-checker android-tools-adb && \
-    rm -rf /var/lib/apt/lists/*
-
 RUN echo 'Installing VsCode' && \
     curl -o vscode.deb -# -J -L "$VSCODE" && \
     dpkg -i vscode.deb && rm -f vscode.deb
@@ -27,13 +39,13 @@ RUN usermod -a -G flutter ${DEVELOPER}
 RUN usermod -a -G plugdev ${DEVELOPER}
 RUN usermod -a -G kvm ${DEVELOPER}
 
-# android sdk - properties
+# Android sdk - properties
 ENV ANDROID_VERSION="29"
 ENV ANDROID_SDK sdk-tools-linux-4333796.zip
 ENV ANDROID_SDK_URL https://dl.google.com/android/repository/${ANDROID_SDK}
 ENV ANDROID_HOME /opt/android-sdk
 
-# create folder and add flutter-group rights
+# Create folder and add flutter-group rights
 RUN mkdir ${ANDROID_HOME}
 RUN chown -R :flutter /opt
 RUN chmod -R g+xrw /opt
@@ -50,7 +62,7 @@ ENV PATH $PATH:$ANDROID_HOME/tools
 ENV PATH $PATH:$ANDROID_HOME/platform-tools
 ENV PATH $PATH:$ANDROID_HOME/tools/bin
 
-#Install Android Tools
+# Install Android Tools
 RUN yes | sdkmanager --update --verbose
 RUN yes | sdkmanager "platform-tools"
 RUN yes | sdkmanager "build-tools;$ANDROID_VERSION.0.3" --verbose
@@ -68,14 +80,10 @@ RUN mkdir $ANDROID_HOME/tools/keymaps && \
 
 # Install flutters stable
 ENV FLUTTER_HOME /opt/flutter
-RUN cd /opt && git clone https://github.com/flutter/flutter.git -b stable --depth 1
+RUN git clone https://github.com/flutter/flutter.git -b stable --depth 1 $FLUTTER_HOME
 ENV PATH=$FLUTTER_HOME/bin:$PATH
-RUN flutter config  --no-analytics
-RUN flutter precache
-RUN flutter upgrade
 RUN flutter channel stable
 
-# user specifics
 WORKDIR ${HOME_DIR}
 
 ADD docker/.bashrc .bashrc
@@ -87,4 +95,5 @@ RUN code --install-extension Dart-Code.flutter && \
     code --install-extension huizhou.githd  && \
     code --install-extension waderyan.gitblame
 
+# Check flutter
 RUN flutter doctor -v
