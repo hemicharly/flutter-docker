@@ -14,9 +14,10 @@ RUN export JAVA_HOME
 # Install dependencies
 RUN apt update -y && \
     apt install -y --no-install-recommends \
-    bash git wget curl unzip lib32stdc++6 xz-utils \
+    bash git wget curl unzip lib32stdc++6 \
     libnotify4 gnupg libxkbfile1 libgconf-2-4 \
-    libsecret-1-0 libgtk2.0-0 libx11-xcb-dev \
+    libsecret-1-0 gnupg2 libglu1 xz-utils gcc-multilib \
+    libgtk2.0-0 libx11-xcb-dev \
     libxss-dev libasound2 libnss3 libxtst6 \
     pulseaudio libgl1-mesa-glx libgtkd-3-0 qemu-kvm \
     cpu-checker android-tools-adb && \
@@ -38,6 +39,7 @@ RUN useradd -ms /bin/bash ${DEVELOPER}
 RUN usermod -a -G flutter ${DEVELOPER}
 RUN usermod -a -G plugdev ${DEVELOPER}
 RUN usermod -a -G kvm ${DEVELOPER}
+RUN adduser ${DEVELOPER} kvm
 
 # Android sdk - properties
 ENV ANDROID_VERSION="29"
@@ -85,6 +87,8 @@ ENV PATH=$FLUTTER_HOME/bin:$PATH
 RUN flutter channel stable
 
 WORKDIR ${HOME_DIR}
+
+RUN mkdir ./project
 
 ADD docker/.bashrc .bashrc
 RUN cat /usr/lib/git-core/git-sh-prompt > .bash_git

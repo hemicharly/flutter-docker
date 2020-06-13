@@ -42,27 +42,19 @@
 
 * Create your app flutter:
 
-    * at the container terminal: `flutter create yournameapp`
+    * at the container terminal, access project folder: `cd project`
+    * at the container terminal, run: `flutter create yournameapp`
  
  
 * Launch application with an emulator:
  
-     * at the container terminal: `cd yournameapp && flutter run`
+    * at the container terminal, access project folder: `cd project/yournameapp`
+     * at the container terminal, run: `flutter run`
         * **note**: using hot reload, press **r** or **R** on the terminal
         
 * Using with existing project:
-    * clean the `workdir` folder
-    * change the `volume` of the file` docker-compose.yml`
-        * from:
-        
-                volumes:
-                  - ./workdir:/home/developer
-              
-        * to:
-        
-                volumes:
-                  - ./workdir/yourproject:/home/developer              
 
+    * copy your project to `workdir` folder
 
 * Open VsCode, *optional*:
  

@@ -11,9 +11,13 @@ services:
     environment:
       DISPLAY: $DISPLAY
     volumes:
-      - ./workdir:/home/developer
+      - home_developer:/home/developer
+      - ./workdir:/home/developer/project
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /etc/localtime:/etc/localtime:ro
       - /usr/share/icons:/usr/share/icons:ro
       - /usr/share/fonts:/usr/share/fonts:ro
-      - /dev/kvm:/dev/kvm
+      - /dev/kvm:/dev/kvm:ro
+
+volumes:
+  home_developer: ~
