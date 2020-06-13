@@ -35,7 +35,7 @@
      * in container terminal execute, to list emulatos: `flutter emulators`
      * in container terminal execute, to start emulator: `flutter emulators --launch <emulator id>`
         * **note**: if the emulator does not open, run the permission again
-
+     * in container terminal execute, to check with doctor: `flutter doctor`
 
 
 * Create your app flutter:
