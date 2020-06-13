@@ -22,11 +22,30 @@
     * in container terminal: `chown developer /dev/kvm`
     * in container terminal: `exit`
       
-            
-                                    
-* Run project execute: 
+                                      
+* Open container docker execute: 
 
     * in terminal host execute: `make run`
-        * **note**: the container terminal will open, in mode development
+        * **note**: the container terminal will open, in development mode. To close the terminal, run `exit`
       
       
+* Create app flutter:
+
+    * in container terminal execute: `flutter create yournameapp`
+
+    
+* Create emulators execute the steps:
+  
+     * in container terminal execute, to create emulator: `flutter emulators --create`
+     * in container terminal execute, to list emulatos: `flutter emulators`
+     * in container terminal execute, to start emulator: `flutter emulators --launch <emulator id>`
+
+ 
+* Start app with emulator:
+ 
+     * in container terminal execute: `cd yournameapp && flutter run`
+
+     
+* Open VsCode, *optional*:
+ 
+     * in container terminal execute: `code`
