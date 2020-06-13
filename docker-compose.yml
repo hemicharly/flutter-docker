@@ -17,7 +17,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /usr/share/icons:/usr/share/icons:ro
       - /usr/share/fonts:/usr/share/fonts:ro
-      - /dev/kvm:/dev/kvm:ro
+      - /dev/kvm:/dev/kvm
 
 volumes:
   home_developer: ~
