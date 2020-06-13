@@ -28,18 +28,18 @@
     * in terminal host execute: `make run`
         * **note**: the container terminal will open, in development mode. To close the terminal, run `exit`
       
-      
-* Create app flutter:
-
-    * in container terminal execute: `flutter create yournameapp`
-
-    
+          
 * Create emulators execute the steps:
   
      * in container terminal execute, to create emulator: `flutter emulators --create`
      * in container terminal execute, to list emulatos: `flutter emulators`
      * in container terminal execute, to start emulator: `flutter emulators --launch <emulator id>`
 
+
+* Create your app flutter:
+
+    * in container terminal execute: `flutter create yournameapp`
+ 
  
 * Start app with emulator:
  
