@@ -52,6 +52,7 @@
 
     * at the container terminal, access project folder: `cd project`
     * at the container terminal, run: `flutter create yournameapp`
+        * **note**: it is necessary to create your application in the`project` folder
 
 
 * Using with existing project **optional**:
