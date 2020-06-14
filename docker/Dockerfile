@@ -15,11 +15,12 @@ RUN export JAVA_HOME
 RUN apt update -y && \
     apt install -y --no-install-recommends \
     bash git wget curl unzip lib32stdc++6 \
-    libnotify4 gnupg libxkbfile1 libgconf-2-4 \
-    libsecret-1-0 gnupg2 libglu1 xz-utils gcc-multilib \
-    libgtk2.0-0 libx11-xcb-dev \
+    libnotify4 gnupg libxkbfile1 libxkbcommon-x11-0 \
+    libgconf-2-4 libsecret-1-0 gnupg2 libglu1 xz-utils \
+    gcc-multilib libgtk2.0-0 libx11-xcb-dev \
     libxss-dev libasound2 libnss3 libxtst6 \
-    pulseaudio libgl1-mesa-glx libgtkd-3-0 qemu-kvm usbutils \
+    pulseaudio libgl1-mesa-glx libgtkd-3-0 \
+    qemu-kvm usbutils \
     cpu-checker android-tools-adb && \
     rm -rf /var/lib/apt/lists/*
 
