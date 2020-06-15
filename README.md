@@ -33,7 +33,7 @@ The `/dev/kvm` permission perform the steps *optional*
 * copy your project to `workdir` folder 
      
 #### 2.4. Testing application with `emulator` or your `device`       
-###### 2.4.1. Create emulators execute the steps *optional*
+###### 2.4.1. Create emulators with docker run the steps *optional*
 **note**: Use the container with user **developer**
 * at the container terminal, to create an emulator: `flutter emulators --create`
 * at the container terminal, to list emulators: `flutter emulators`
@@ -41,24 +41,14 @@ The `/dev/kvm` permission perform the steps *optional*
     * **note**: if the emulator does not open, run the permission again
 * at the container terminal, to check with doctor: `flutter doctor`
 
-###### 2.4.2. Using `adb` to connect  an `emulator` or `cable usb`
-**note**: Use the container with user **developer**  
-* at the host terminal, install `adb`: `sudo apt-get update && sudo apt-get install adb`
-* at the host terminal, list devices with the `adb`: `adb devices`
-    * **note**: open the `emulator` or connect your` smartphone` with the usb cable, check the list of devices
+###### 2.4.2. Using your host's `emulator` or  `usb cable`
+* open the `emulator` or connect your`device` with the  usb cable
 * at the container terminal, list devices with the `adb`: `adb devices`
     * **note**: check the list of devices
 * at the container terminal, to check with doctor: `flutter doctor`
-    * **note**: check the `emulator` or `smartphone` and **confirm access to the permission**
+    * **note**: check the `emulator` or `device` and **confirm access to the permission**
     
-###### 2.4.3. Using your smartphone with `cable usb` *optional*
-**note**: Maybe this might not work without `adb`
-* configure your smartphone, development permission:
-    * **note**: connect your smartphone to the USB cable on your computer
-* at the container terminal, to check devices usb: `lsusb`
-* at the container terminal, to check with doctor: `flutter doctor`
-
-###### 2.4.4. Launch application with an `emulator` or `cable usb`
+###### 2.4.3. Launch application with an `emulator` or `cable usb`
 **note**: Use the container with user **developer**   
 * at the container terminal, access project folder: `cd project/yournameapp`
 * at the container terminal, run: `flutter run`
