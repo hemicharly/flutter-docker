@@ -1,4 +1,4 @@
-# Flutter with the docker, emulator android and VsCode
+# Flutter with the docker and emulator android
 
 ### 1. Requirements Installation
 * Install docker
@@ -53,9 +53,3 @@ The `/dev/kvm` permission perform the steps *optional*
 * at the container terminal, access project folder: `cd project/yournameapp`
 * at the container terminal, run: `flutter run`
     * **note**: using hot reload, press **r** or **R** on the terminal
-        
-        
-#### 2.5. Open VsCode, *optional*
-**note**: Use the container with user **developer**   
-* at the container terminal: `code`
-* open your application folder in `VsCode`

@@ -24,12 +24,6 @@ RUN apt update -y && \
     cpu-checker android-tools-adb && \
     rm -rf /var/lib/apt/lists/*
 
-# Install vs-code
-ENV VSCODE=https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable
-RUN echo 'Installing VsCode' && \
-    curl -o vscode.deb -# -J -L "$VSCODE" && \
-    dpkg -i vscode.deb && rm -f vscode.deb
-
 # User and Groups
 RUN groupadd flutter
 RUN usermod -a -G flutter root
@@ -93,12 +87,6 @@ RUN mkdir ./project
 
 ADD docker/.bashrc .bashrc
 RUN cat /usr/lib/git-core/git-sh-prompt > .bash_git
-
-# Code as superuser is not recommended
-RUN code --install-extension Dart-Code.flutter && \
-    code --install-extension miguelsolorio.min-theme  && \
-    code --install-extension huizhou.githd  && \
-    code --install-extension waderyan.gitblame
 
 # Check flutter
 RUN flutter doctor -v
